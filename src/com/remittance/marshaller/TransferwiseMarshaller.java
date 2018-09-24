@@ -63,6 +63,11 @@ public class TransferwiseMarshaller {
                     paymentModeBo = new PaymentModeBo();
                     paymentModeBo.setPaymentType(myPropertiesReader.getPropertyValue("transferWise.paymentModesDebitDisplay"));
                     paymentModeBo.setEstimatedDelivery((String)paymentMode.get("estimatedDelivery"));
+
+                    responseRemittanceBo.setAmountReceived(String.valueOf(paymentMode.get("targetAmount")));
+                    responseRemittanceBo.setTransferFees(String.valueOf(((Map)paymentMode.get("fee")).get("total")));
+                    responseRemittanceBo.setTargetCurrency((String)paymentMode.get("targetCurrency"));
+                    responseRemittanceBo.setSourceCurrency((String)paymentMode.get("sourceCurrency"));
                 }else if(paymentMode.get("type").equals(myPropertiesReader.getPropertyValue("transferWise.paymentModesCredit"))){
                     paymentModeBo = new PaymentModeBo();
                     paymentModeBo.setPaymentType(myPropertiesReader.getPropertyValue("transferWise.paymentModesCreditDisplay"));
@@ -71,11 +76,6 @@ public class TransferwiseMarshaller {
                     paymentModeBo = new PaymentModeBo();
                     paymentModeBo.setPaymentType(myPropertiesReader.getPropertyValue("transferWise.paymentModesSwiftDisplay"));
                     paymentModeBo.setEstimatedDelivery((String)paymentMode.get("estimatedDelivery"));
-
-                    responseRemittanceBo.setAmountReceived(String.valueOf(paymentMode.get("targetAmount")));
-                    responseRemittanceBo.setTransferFees(String.valueOf(((Map)paymentMode.get("fee")).get("total")));
-                    responseRemittanceBo.setTargetCurrency((String)paymentMode.get("targetCurrency"));
-                    responseRemittanceBo.setSourceCurrency((String)paymentMode.get("sourceCurrency"));
                 }
 
                 if(paymentModeBo != null){
