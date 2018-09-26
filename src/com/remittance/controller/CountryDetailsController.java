@@ -8,6 +8,10 @@ import com.remittance.marshaller.CountryDetailsMarshaller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 @CrossOrigin
 @Controller
 @RequestMapping(value = "/countryDetails")
@@ -25,6 +29,19 @@ public class CountryDetailsController {
         countryDetailsBo = countryDetailsMarshaller.daoTOBo(countryDetails);
 
         return countryDetailsBo;
+    }
+
+    @RequestMapping(value="/retrieveAll",method = RequestMethod.POST)
+    @ResponseBody
+    public List<CountryDetailsBo> retrieveAll() {
+
+        List boList = new ArrayList();
+        List countryDetailsList = countryDetailsOperation.reteriveAll();
+        Iterator itr = countryDetailsList.iterator();
+        while (itr.hasNext()){
+            boList.add(countryDetailsMarshaller.daoTOBo((CountryDetails) itr.next()));
+        }
+        return boList;
     }
 
 }

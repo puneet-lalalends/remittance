@@ -11,8 +11,8 @@
 
     <property name="connection.url">jdbc:mysql://localhost:3306/remittance_db</property>
     <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="hibernate.connection.username">lalawallet</property>
-    <property name="hibernate.connection.password">LALAwallet@123</property>
+    <property name="hibernate.connection.username">root</property>
+    <property name="hibernate.connection.password">mysql</property>
 
     <property name="hibernate.connection.provider_class">org.hibernate.c3p0.internal.C3P0ConnectionProvider</property>
     <property name="hibernate.c3p0.min_size">5</property>
