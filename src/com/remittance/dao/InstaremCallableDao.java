@@ -13,6 +13,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.MessageFormat;
 import java.util.Map;
@@ -32,6 +33,7 @@ public class InstaremCallableDao implements Callable<InstaremBo> {
     public InstaremBo call() {
 
         InstaremBo instaremBo = null;
+        BufferedReader rd = null;
         try {
             long startTime = System.nanoTime();
             HttpClient client = HttpClientBuilder.create().build();
@@ -42,7 +44,7 @@ public class InstaremCallableDao implements Callable<InstaremBo> {
             HttpResponse response = client.execute(post);
             if(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
 
-                BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+                rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
                 String line = rd.readLine();
                 line = "{'dataMap':"+line+"}";
 
@@ -52,10 +54,20 @@ public class InstaremCallableDao implements Callable<InstaremBo> {
 
                 String jsonInString = g.toJson(instaremBo);
                 log.info("instaremBo data: "+jsonInString);
+
+                long endTime   = System.nanoTime();
+                long totalTime = endTime - startTime;
+                log.info("InstaremBo: "+Thread.currentThread().getName()+ " Completed in "+(totalTime/1000000000.0));
             }
         } catch (Exception e) {
             e.printStackTrace();
             log.error(e.getMessage());
+        }finally {
+            try {
+                rd.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return instaremBo;
@@ -63,6 +75,7 @@ public class InstaremCallableDao implements Callable<InstaremBo> {
 
     public InstaremBo instaremURL2(InstaremBo instaremBo){
 
+        BufferedReader rd = null;
         try {
             Map dataMap = instaremBo.getDataMap();
             HttpClient client = HttpClientBuilder.create().build();
@@ -73,7 +86,7 @@ public class InstaremCallableDao implements Callable<InstaremBo> {
             HttpResponse response = client.execute(post);
             if(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
 
-                BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+                rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
                 String line = rd.readLine();
                 line = "{'paymentOptionsMap':"+line+"}";
 
@@ -84,6 +97,12 @@ public class InstaremCallableDao implements Callable<InstaremBo> {
         } catch (Exception e) {
             e.printStackTrace();
             log.error(e.getMessage());
+        }finally {
+            try {
+                rd.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return instaremBo;

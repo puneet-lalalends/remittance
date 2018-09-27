@@ -12,6 +12,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.MessageFormat;
 import java.util.concurrent.Callable;
@@ -31,6 +32,7 @@ public class TransferwiseCallableDao implements Callable<TransferwiseBo> {
     public TransferwiseBo call() {
 
         TransferwiseBo transferwiseBo = null;
+        BufferedReader rd = null;
         try {
             long startTime = System.nanoTime();
             HttpClient client = HttpClientBuilder.create().build();
@@ -42,22 +44,28 @@ public class TransferwiseCallableDao implements Callable<TransferwiseBo> {
             HttpResponse response = client.execute(post);
             if(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
 
-                BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+                rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
                 String line = rd.readLine();
                 line = "{'dataMap':"+line+"}";
-/*
-                long endTime   = System.nanoTime();
-                long totalTime = endTime - startTime;
-                log.info(Thread.currentThread().getName()+ " Completed in "+(totalTime/1000000000.0));
-*/
+
                 Gson g = new Gson();
                 transferwiseBo = g.fromJson(line, TransferwiseBo.class);
                 String jsonInString = g.toJson(transferwiseBo);
                 log.info("transferwise data: "+jsonInString);
+
+                long endTime   = System.nanoTime();
+                long totalTime = endTime - startTime;
+                log.info("Transferwise: "+Thread.currentThread().getName()+ " Completed in "+(totalTime/1000000000.0));
             }
         } catch (Exception e) {
             e.printStackTrace();
             log.error(e.getMessage());
+        }finally {
+            try {
+                rd.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return transferwiseBo;
