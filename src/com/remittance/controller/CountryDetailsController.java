@@ -5,6 +5,8 @@ import com.remittance.bo.CountryDetailsBo;
 import com.remittance.dao.CountryDetails;
 import com.remittance.dao.CountryDetailsOperation;
 import com.remittance.marshaller.CountryDetailsMarshaller;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,6 +43,8 @@ public class CountryDetailsController {
         while (itr.hasNext()){
             boList.add(countryDetailsMarshaller.daoTOBo((CountryDetails) itr.next()));
         }
+//        final HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.IMAGE_JPEG);
         return boList;
     }
 

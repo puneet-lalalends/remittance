@@ -2,7 +2,13 @@ package com.remittance.marshaller;
 
 import com.remittance.bo.CountryDetailsBo;
 import com.remittance.dao.CountryDetails;
-import sun.misc.IOUtils;
+import org.apache.commons.io.IOUtils;
+import org.springframework.core.io.InputStreamResource;
+import sun.nio.ch.IOUtil;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 public class CountryDetailsMarshaller {
 
@@ -13,6 +19,17 @@ public class CountryDetailsMarshaller {
         countryDetailsBo.setCountryCode(countryDetails.getCountryCode());
         countryDetailsBo.setCountryCurrency(countryDetails.getCountryCurrency());
         countryDetailsBo.setCountryName(countryDetails.getCountryName());
+
+        try {
+            String str = "C:\\Users\\user\\Desktop\\download.jpg";
+            File file = new File(str); // java.io.File
+            FileInputStream fileInputStream = new FileInputStream(file);
+            InputStreamResource inputStreamResource = new InputStreamResource(fileInputStream);
+//            countryDetailsBo.setInputStreamResource(inputStreamResource);
+            countryDetailsBo.setCounryFlag(IOUtils.toByteArray(fileInputStream));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return countryDetailsBo;
     }

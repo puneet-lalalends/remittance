@@ -1,5 +1,7 @@
 package com.remittance.bo;
 
+import org.springframework.core.io.InputStreamResource;
+
 public class CountryDetailsBo {
 
     private Integer id;
@@ -7,6 +9,7 @@ public class CountryDetailsBo {
     private String countryCode;
     private String countryCurrency;
     private byte[] counryFlag;
+//    private InputStreamResource inputStreamResource;
 
     public CountryDetailsBo() {
     }
@@ -17,6 +20,22 @@ public class CountryDetailsBo {
         this.countryCode = countryCode;
         this.countryCurrency = countryCurrency;
     }
+
+    public byte[] getCounryFlag() {
+        return counryFlag;
+    }
+
+    public void setCounryFlag(byte[] counryFlag) {
+        this.counryFlag = counryFlag;
+    }
+
+    /*public InputStreamResource getInputStreamResource() {
+        return inputStreamResource;
+    }
+
+    public void setInputStreamResource(InputStreamResource inputStreamResource) {
+        this.inputStreamResource = inputStreamResource;
+    }*/
 
     public Integer getId() {
         return id;
