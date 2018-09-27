@@ -22,6 +22,7 @@
     <property name="hibernate.c3p0.idle_test_period">1800</property>
 
     <mapping class="com.remittance.dao.CountryDetails"/>
+    <mapping class="com.remittance.dao.PartnerInfo"/>
 
   </session-factory>
 </hibernate-configuration>
