@@ -12,7 +12,16 @@ public class ResponseRemittanceBo {
     private String transferFees;
     private String exchangeRate;
     private String amountReceived;
+    private PartnerInfoBo partnerInfoBo;
     private List<PaymentModeBo> paymentMode = new ArrayList<PaymentModeBo>();
+
+    public PartnerInfoBo getPartnerInfoBo() {
+        return partnerInfoBo;
+    }
+
+    public void setPartnerInfoBo(PartnerInfoBo partnerInfoBo) {
+        this.partnerInfoBo = partnerInfoBo;
+    }
 
     public String getPartner() {
         return partner;

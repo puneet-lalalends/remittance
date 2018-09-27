@@ -1,20 +1,34 @@
-package com.remittance.bo;
+package com.remittance.dao;
 
-public class PartnerInfoBo {
+import javax.persistence.*;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
+@Entity
+@Table(name = "partner_info", catalog = "remittance_db",schema = "remittance_db")
+public class PartnerInfo {
+
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "id", unique = true, nullable = false)
     private Integer id;
+    @Column(name = "partner", nullable = true,length = 100)
     private String partner;
+    @Column(name = "licensed_by", nullable = true,length = 100)
     private String licensedBy;
+    @Column(name = "based_in", nullable = true,length = 100)
     private String basedIn;
+    @Column(name = "available_in", nullable = true,length = 100)
     private String availableIn;
+    @Column(name = "brief_about", nullable = true,columnDefinition="TEXT")
     private String briefAbout;
+    @Column(name = "deal_in", nullable = true,length = 100)
     private String dealIn;
 
-    public PartnerInfoBo() {
+    public PartnerInfo() {
     }
 
-    public PartnerInfoBo(Integer id, String partner, String licensedBy, String basedIn, String availableIn, String briefAbout, String dealIn) {
-        this.id = id;
+    public PartnerInfo(String partner, String licensedBy, String basedIn, String availableIn, String briefAbout, String dealIn) {
         this.partner = partner;
         this.licensedBy = licensedBy;
         this.basedIn = basedIn;
