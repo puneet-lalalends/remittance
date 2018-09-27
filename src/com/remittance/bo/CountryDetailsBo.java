@@ -6,7 +6,6 @@ public class CountryDetailsBo {
     private String countryName;
     private String countryCode;
     private String countryCurrency;
-    private byte[] counryFlag;
 
     public CountryDetailsBo() {
     }
