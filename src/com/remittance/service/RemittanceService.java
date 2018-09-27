@@ -31,9 +31,12 @@ public class RemittanceService {
         ExecutorService service = Executors.newFixedThreadPool(10);
 
         Set callables = new HashSet();
-        callables.add(new TransferwiseCallableDao(requestRemittanceBo));
-        callables.add(new TransfergoCallableDao(requestRemittanceBo));
-        callables.add(new InstaremCallableDao(requestRemittanceBo));
+
+        for(int i = 0 ; i < 4 ; i++){
+            callables.add(new TransferwiseCallableDao(requestRemittanceBo));
+            callables.add(new TransfergoCallableDao(requestRemittanceBo));
+            callables.add(new InstaremCallableDao(requestRemittanceBo));
+        }
 
         try {
             List<Future> futures = service.invokeAll(callables);
@@ -75,6 +78,58 @@ public class RemittanceService {
             e.printStackTrace();
         }
         service.shutdown();
+
+        ExecutorService service1 = Executors.newFixedThreadPool(10);
+
+        Set callables1 = new HashSet();
+
+        for(int i = 0 ; i < 4 ; i++){
+            callables1.add(new TransferwiseCallableDao(requestRemittanceBo));
+            callables1.add(new TransfergoCallableDao(requestRemittanceBo));
+            callables1.add(new InstaremCallableDao(requestRemittanceBo));
+        }
+
+        try {
+            List<Future> futures = service1.invokeAll(callables);
+            for(Future future : futures){
+                boObject = future.get();
+
+                if(boObject != null){
+                    if(boObject instanceof TransferwiseBo){
+                        ResponseRemittanceBo responseRemittanceBo = new ResponseRemittanceBo();
+                        responseRemittanceBo.setPartner(myPropertiesReader.getPropertyValue("transferWisePartnerName"));
+                        setPartnerInfo(responseRemittanceBo);
+
+                        responseRemittanceBo = transferwiseMarshaller.daoToBo((TransferwiseBo)boObject,responseRemittanceBo);
+                        responseRemittanceBoList.add(responseRemittanceBo);
+                    }else if(boObject instanceof TransfergoBo){
+                        ResponseRemittanceBo responseRemittanceBo = new ResponseRemittanceBo();
+                        responseRemittanceBo.setPartner(myPropertiesReader.getPropertyValue("transfergoPartnerName"));
+                        responseRemittanceBo.setSourceCurrency(requestRemittanceBo.getSourceCountryCurrency());
+                        responseRemittanceBo.setTargetCurrency(requestRemittanceBo.getTargetCountryCurrency());
+                        setPartnerInfo(responseRemittanceBo);
+
+                        responseRemittanceBo = transfergoMarshaller.daoToBo((TransfergoBo)boObject,responseRemittanceBo);
+                        responseRemittanceBoList.add(responseRemittanceBo);
+                    }else if(boObject instanceof InstaremBo){
+                        ResponseRemittanceBo responseRemittanceBo = new ResponseRemittanceBo();
+                        responseRemittanceBo.setPartner(myPropertiesReader.getPropertyValue("instaremPartnerName"));
+                        responseRemittanceBo.setSourceCurrency(requestRemittanceBo.getSourceCountryCurrency());
+                        responseRemittanceBo.setTargetCurrency(requestRemittanceBo.getTargetCountryCurrency());
+                        setPartnerInfo(responseRemittanceBo);
+
+                        responseRemittanceBo = instaremMarshaller.daoToBo((InstaremBo)boObject,responseRemittanceBo);
+                        responseRemittanceBoList.add(responseRemittanceBo);
+                    }
+                }
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        service1.shutdown();
+
 
         return responseRemittanceBoList;
     }
