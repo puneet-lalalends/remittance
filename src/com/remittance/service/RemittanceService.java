@@ -7,7 +7,6 @@ import com.remittance.marshaller.PartnerInfoMarshaller;
 import com.remittance.marshaller.TransfegoMarshaller;
 import com.remittance.marshaller.TransferwiseMarshaller;
 import com.remittance.utilities.MyPropertiesReader;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -43,14 +42,16 @@ public class RemittanceService {
                 if (boObject != null) {
                     if (boObject instanceof TransferwiseBo) {
                         ResponseRemittanceBo responseRemittanceBo = new ResponseRemittanceBo();
-                        responseRemittanceBo.setPartner(myPropertiesReader.getPropertyValue("transferWisePartnerName"));
+                        responseRemittanceBo.setPartnerURL(myPropertiesReader.getPropertyValue("transferWisePartnerURL"));
+                        responseRemittanceBo.setPartnerName(myPropertiesReader.getPropertyValue("transferWisePartnerName"));
                         setPartnerInfo(responseRemittanceBo);
 
                         responseRemittanceBo = transferwiseMarshaller.daoToBo((TransferwiseBo) boObject, responseRemittanceBo);
                         responseRemittanceBoList.add(responseRemittanceBo);
                     } else if (boObject instanceof TransfergoBo) {
                         ResponseRemittanceBo responseRemittanceBo = new ResponseRemittanceBo();
-                        responseRemittanceBo.setPartner(myPropertiesReader.getPropertyValue("transfergoPartnerName"));
+                        responseRemittanceBo.setPartnerURL(myPropertiesReader.getPropertyValue("transfergoPartnerURL"));
+                        responseRemittanceBo.setPartnerName(myPropertiesReader.getPropertyValue("transfergoPartnerName"));
                         responseRemittanceBo.setSourceCurrency(requestRemittanceBo.getSourceCountryCurrency());
                         responseRemittanceBo.setTargetCurrency(requestRemittanceBo.getTargetCountryCurrency());
                         setPartnerInfo(responseRemittanceBo);
@@ -59,7 +60,8 @@ public class RemittanceService {
                         responseRemittanceBoList.add(responseRemittanceBo);
                     } else if (boObject instanceof InstaremBo) {
                         ResponseRemittanceBo responseRemittanceBo = new ResponseRemittanceBo();
-                        responseRemittanceBo.setPartner(myPropertiesReader.getPropertyValue("instaremPartnerName"));
+                        responseRemittanceBo.setPartnerURL(myPropertiesReader.getPropertyValue("instaremPartnerURL"));
+                        responseRemittanceBo.setPartnerName(myPropertiesReader.getPropertyValue("instaremPartnerName"));
                         responseRemittanceBo.setSourceCurrency(requestRemittanceBo.getSourceCountryCurrency());
                         responseRemittanceBo.setTargetCurrency(requestRemittanceBo.getTargetCountryCurrency());
                         setPartnerInfo(responseRemittanceBo);
@@ -81,7 +83,7 @@ public class RemittanceService {
 
     public void setPartnerInfo(ResponseRemittanceBo responseRemittanceBo) {
         PartnerInfo partnerInfo = new PartnerInfo();
-        partnerInfo.setPartner(responseRemittanceBo.getPartner());
+        partnerInfo.setPartner(responseRemittanceBo.getPartnerURL());
         partnerInfo = (PartnerInfo) (partnerInfoOperation.reteriveSpecific(partnerInfo).get(0));
         responseRemittanceBo.setPartnerInfoBo(partnerInfoMarshaller.daoTOBo(partnerInfo));
     }

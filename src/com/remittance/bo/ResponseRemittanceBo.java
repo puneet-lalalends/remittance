@@ -5,7 +5,8 @@ import java.util.List;
 
 public class ResponseRemittanceBo {
 
-    private String partner;
+    private String partnerURL;
+    private String partnerName;
     private String sourceCurrency;
     private String targetCurrency;
     private String sendingAmount;
@@ -15,6 +16,14 @@ public class ResponseRemittanceBo {
     private PartnerInfoBo partnerInfoBo;
     private List<PaymentModeBo> paymentMode = new ArrayList<PaymentModeBo>();
 
+    public String getPartnerName() {
+        return partnerName;
+    }
+
+    public void setPartnerName(String partnerName) {
+        this.partnerName = partnerName;
+    }
+
     public PartnerInfoBo getPartnerInfoBo() {
         return partnerInfoBo;
     }
@@ -23,12 +32,12 @@ public class ResponseRemittanceBo {
         this.partnerInfoBo = partnerInfoBo;
     }
 
-    public String getPartner() {
-        return partner;
+    public String getPartnerURL() {
+        return partnerURL;
     }
 
-    public void setPartner(String partner) {
-        this.partner = partner;
+    public void setPartnerURL(String partnerURL) {
+        this.partnerURL = partnerURL;
     }
 
     public List<PaymentModeBo> getPaymentMode() {
