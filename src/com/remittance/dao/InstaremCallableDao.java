@@ -39,9 +39,9 @@ public class InstaremCallableDao implements Callable<InstaremBo> {
             HttpClient client = HttpClientBuilder.create().build();
             String url = myPropertiesReader.getPropertyValue("instaremURL1");
             url = MessageFormat.format(url, requestRemittanceBo.getSourceCountryCurrency(),requestRemittanceBo.getTargetCountryCurrency(),requestRemittanceBo.getSendingAmount());
-            HttpGet post = new HttpGet(url);
+            HttpGet get = new HttpGet(url);
 
-            HttpResponse response = client.execute(post);
+            HttpResponse response = client.execute(get);
             if(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
 
                 rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
@@ -65,7 +65,7 @@ public class InstaremCallableDao implements Callable<InstaremBo> {
         }finally {
             try {
                 rd.close();
-            } catch (IOException e) {
+            }catch (Exception e){
                 e.printStackTrace();
             }
         }
@@ -81,9 +81,9 @@ public class InstaremCallableDao implements Callable<InstaremBo> {
             HttpClient client = HttpClientBuilder.create().build();
             String url = myPropertiesReader.getPropertyValue("instaremURL2");
             url = MessageFormat.format(url, requestRemittanceBo.getSourceCountryCurrency(),requestRemittanceBo.getSendingAmount(),requestRemittanceBo.getTargetCountryCurrency());
-            HttpGet post = new HttpGet(url);
+            HttpGet get = new HttpGet(url);
 
-            HttpResponse response = client.execute(post);
+            HttpResponse response = client.execute(get);
             if(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
 
                 rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));

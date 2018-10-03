@@ -63,7 +63,7 @@ public class TransfergoCallableDao implements Callable<TransfergoBo> {
             if(rd != null){
                 try {
                     rd.close();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

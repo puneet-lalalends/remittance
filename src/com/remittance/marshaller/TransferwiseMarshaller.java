@@ -44,10 +44,10 @@ public class TransferwiseMarshaller {
                     paymentModeBo = new PaymentModeBo();
                     paymentModeBo.setPaymentType(myPropertiesReader.getPropertyValue("transferWise.paymentModesInternationalDisplay"));
                     paymentModeBo.setEstimatedDelivery((String)paymentMode.get("estimatedDelivery"));
-                    responseRemittanceBo.setAmountReceived((String)paymentMode.get("targetAmount"));
-                    responseRemittanceBo.setTargetCurrency((String)paymentMode.get("targetCurrency"));
-                    responseRemittanceBo.setSourceCurrency((String)paymentMode.get("sourceCurrency"));
-                    responseRemittanceBo.setTransferFees((String)((Map)paymentMode.get("fee")).get("total"));
+                    responseRemittanceBo.setAmountReceived(String.valueOf(paymentMode.get("targetAmount")));
+                    responseRemittanceBo.setTargetCurrency(String.valueOf(paymentMode.get("targetCurrency")));
+                    responseRemittanceBo.setSourceCurrency(String.valueOf(paymentMode.get("sourceCurrency")));
+                    responseRemittanceBo.setTransferFees(String.valueOf(((Map)paymentMode.get("fee")).get("total")));
                     break;
                 }
 

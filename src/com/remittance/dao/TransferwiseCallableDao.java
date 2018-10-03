@@ -63,7 +63,7 @@ public class TransferwiseCallableDao implements Callable<TransferwiseBo> {
         }finally {
             try {
                 rd.close();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
